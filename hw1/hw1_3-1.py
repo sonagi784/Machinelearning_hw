@@ -14,6 +14,5 @@ for i in range(len(a_list)):
         if a_list[i][j][0] == "'":
             a_list[i][j] = str(a_list[i][j][1:-1])
 
-import random
-random.shuffle(a_list)
-
+print(a_list)
+f.close()
