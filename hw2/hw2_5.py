@@ -1,32 +1,28 @@
-from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import KBinsDiscretizer
 import numpy as np
 
-f = open("anneal.csv", 'r')
-a_list = []
+# read "a_list_enc.txt"
+f = open("a_list_enc.txt", 'r')
+a_list_enc = []
 while True:
-    line = f.readline().rstrip()
-    if not line:
-        break
-    line = line.split(',')
-    a_list.append(line)
-a_list = a_list[1:-3]
-
-for i in range(len(a_list)):
-    for j in range(len(a_list[0])):
-        if a_list[i][j][0] == "'":
-            a_list[i][j] = str(a_list[i][j][1:-1])
+    line = f.readline()
+    if not line: break
+    a_list_enc.append(line.split())
+a_list_enc = np.float32(a_list_enc)
 f.close()
 
-le = LabelEncoder()
-a_list_enc = []
-for line in a_list:
-    le.fit(line)
-    a_list_enc.append(le.transform(line))
-
+# 5-1) discretize the attribute with N=4 intervals
 disc = KBinsDiscretizer(n_bins=4, encode='ordinal', strategy='uniform')
 disc.fit(np.float32(a_list_enc))
 a_list_enc_disc = disc.transform(np.float32(a_list_enc))
 
-print(a_list_enc[0])
-print(a_list_enc_disc[0])
+# write a_list_enc_disc to "a_list_enc_disc.txt"
+f = open("a_list_enc_disc.txt", 'w')
+for line in a_list_enc_disc:
+    for l in line:
+        f.write(str(l))
+        f.write(' ')
+    f.write('\n')
+f.close()
+
+print(a_list_enc_disc)

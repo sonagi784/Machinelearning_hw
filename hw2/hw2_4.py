@@ -1,43 +1,35 @@
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import classification_report, confusion_matrix
 from matplotlib import pyplot as plt
 import numpy as np
 
-f = open("anneal.csv", 'r')
-a_list = []
+# read X_train, X_test, Y_train, Y_test
+f = open("X_train.txt", 'r')
+X_train = []
 while True:
-    line = f.readline().rstrip()
-    if not line:
-        break
-    line = line.split(',')
-    a_list.append(line)
-a_list = a_list[1:-3]
-
-for i in range(len(a_list)):
-    for j in range(len(a_list[0])):
-        if a_list[i][j][0] == "'":
-            a_list[i][j] = str(a_list[i][j][1:-1])
+    line = f.readline()
+    if not line: break
+    X_train.append(line.split())
+X_train = np.float32(X_train)
 f.close()
 
-le = LabelEncoder()
-a_list_enc = []
-for line in a_list:
-    le.fit(line)
-    a_list_enc.append(le.transform(line))
+f = open("X_test.txt", 'r')
+X_test = []
+while True:
+    line = f.readline()
+    if not line: break
+    X_test.append(line.split())
+X_test = np.float32(X_test)
+f.close()
 
-scaler = StandardScaler()
-scaler.fit(np.float32(a_list_enc))
-a_list_enc_norm = scaler.transform(np.float32(a_list_enc))
+f = open("Y_train.txt", 'r')
+line = f.readline()
+Y_train = list(map(int, line.split()))
+f.close()
 
-X_data, Y_data = [], []
-for line in a_list_enc_norm:
-    X_data.append(line[0:-1])
-    Y_data.append(line[-1].astype(int))
-
-X_train, X_test, Y_train, Y_test = train_test_split(X_data, Y_data, test_size=0.2,random_state=33)
+f = open("Y_test.txt", 'r')
+line = f.readline()
+Y_test = list(map(int, line.split()))
+f.close()
 
 # 4-1
 clf1 = [MLPClassifier(hidden_layer_sizes=(10,), max_iter=200), 
