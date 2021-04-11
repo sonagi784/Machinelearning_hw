@@ -16,9 +16,11 @@ for i in range(len(a_list)):
             a_list[i][j] = str(a_list[i][j][1:-1])
 f.close()
 
+# 1
 le = LabelEncoder()
 a_list_enc = []
 for line in a_list:
     le.fit(line)
     a_list_enc.append(le.transform(line))
 
+print(a_list_enc)
