@@ -13,13 +13,13 @@ while True:
 a_list_enc_norm = np.float32(a_list_enc_norm)
 f.close()
 
-# 3-1) split a_list_enc_norm into X_data and Y_data
+# split a_list_enc_norm into X_data and Y_data
 X_data, Y_data = [], []
 for line in np.float32(a_list_enc_norm):
     X_data.append(line[0:-1])
     Y_data.append(line[-1].astype(int))
 
-# 3-2) split X_data and Y_data into X_train, X_test, Y_train, Y_test
+# split X_data and Y_data into X_train, X_test, Y_train, Y_test
 X_train, X_test, Y_train, Y_test = train_test_split(X_data, Y_data, test_size=0.2,random_state=33)
 
 # write X_train, X_test, Y_train, Y_test

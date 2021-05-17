@@ -9,7 +9,7 @@ while True:
     a_list.append(line.split())
 f.close()
 
-# 1
+#
 le = LabelEncoder()
 a_list_enc = []
 for line in a_list:
@@ -38,7 +38,7 @@ while True:
 a_list_enc = np.float32(a_list_enc)
 f.close()
 
-# 2-2 (StandardScaler)
+# StandardScaler
 scaler = StandardScaler()
 scaler.fit(np.float32(a_list_enc))
 a_list_enc_norm = scaler.transform(np.float32(a_list_enc))

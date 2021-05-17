@@ -39,13 +39,9 @@ estimators = [5, 7, 10, 30, 100]
 for estimator in estimators:
     clf.append(AdaBoostClassifier(n_estimators=estimator))
 
-predictions = []
-pred_prob = []
 score_AdaBoost = []
 for i in range(len(clf)):
     clf[i].fit(X_train, Y_train)
-    predictions.append(clf[i].predict(X_test))
-    pred_prob.append(clf[i].predict_proba(X_test))
     score_AdaBoost.append(clf[i].score(X_test, Y_test))
 print(score_AdaBoost)
 
@@ -59,7 +55,7 @@ plt.ylim(0, 1.2)
 plt.grid(True, axis='y')
 plt.xlabel('n_estimators')
 plt.ylabel('Accuracy')
-plt.title('score of AdaBoostClassifier')
+plt.title('Accuracy of AdaBoostClassifier')
 plt.show()
 
 
@@ -89,7 +85,19 @@ for i in range(2):
     score_p.append(clf_p[i].score(X_test, Y_test))
 
 print('\n<Best Performance of AdaBoostClassifier>')
-print(max(score_AdaBoost), end='\n\n')
-
-print('<Best Performance of IBL>')
+print(max(score_AdaBoost))
+print('\n<Best Performance of IBL>')
 print(max(max(score_neighbor), max(score_weight), max(score_p)))
+
+index = np.array(['IBL', 'AdaBoostClassifier'])
+score = [max(score_AdaBoost), max(max(score_neighbor), max(score_weight), max(score_p))]
+plt.bar(index, score, width=0.5, color='g')
+ax = plt.subplot()
+ax.set_xticks(index)
+ax.set_yticks(np.arange(0, 1.01, 0.05))
+plt.ylim(0, 1.2)
+plt.grid(True, axis='y')
+plt.xlabel('classifier')
+plt.ylabel('Accuracy')
+plt.title('Accuracy of IBL and AdaBoost')
+plt.show()
